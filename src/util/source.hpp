@@ -1,9 +1,9 @@
 /**
  * @file source.hpp
- * @author fuechs
+ * @author fyronix
  * @brief fux source file header
  * @version 0.1
- * @date 2022-11-26
+ * @date 2023-03-02
  * 
  * @copyright Copyright (c) 2020-2023, Fuechs and Contributors. All rights reserved.
  * 
@@ -18,38 +18,37 @@
 
 class SourceFile {
 public:
-    typedef vector<SourceFile *> Vec;
-    typedef vector<Vec> Groups;
+    using Vec = vector<SourceFile*>;
+    using Groups = vector<Vec>;
 
-    SourceFile(ErrorManager *error, const string &filePath, const bool mainFile = false);
-    
+    SourceFile(ErrorManager* error, const string& filePath, bool mainFile = false);
     ~SourceFile();
 
-    // get std::thread to run this->parse
-    void operator()() { this->parse(); }
-    
-    // parse file and save RootAST in root
-    // will be called for every file that's referenced 
+    // Get std::thread to run this->parse
+    void operator()() { parse(); }
+
+    // Parse file and save RootAST in root
+    // Will be called for every file that's referenced
     void parse();
 
-    // check if file has errors
-    size_t errors();
+    // Check if file has errors
+    size_t errors() const;
 
-    // return file size in bytes
-    // from https://stackoverflow.com/a/32286531
-    size_t getFileSize();
-    
+    // Return file size in bytes
+    // From https://stackoverflow.com/a/32286531
+    size_t getFileSize() const;
+
     string fileName;
     string filePath;
     string fileDir;
 
     RootAST::Ptr root;
     StmtAST::Ptr analysed;
-    
+
 private:
-    ErrorManager *error;
-    Parser *parser;
-    Analyser *analyser;
+    ErrorManager* error;
+    Parser* parser;
+    Analyser* analyser;
     string contents;
     bool mainFile;
 };
